@@ -1,0 +1,43 @@
+---
+title: 'Contact Form 7 Redirection'
+publshedAt: 2024-02-24
+summary: 'How to redirect after a successful form submission in Contact Form 7'
+---
+
+Add the following code to your `functions.php` file:
+
+```php
+add_action( 'wp_footer', 'dtp_contact_form_7_redirection' );
+function dtp_contact_form_7_redirection() {
+	?>
+	<script>
+		document.addEventListener( 'wpcf7mailsent', function( event ) {
+			location = 'http://example.com/thank-you/';
+		}, false );
+	</script>
+	<?php
+}
+``` 
+ This code will redirect the user to `http://example.com/thank-you/` after a successful form submission. 
+ Replace `http://example.com/thank-you/` with the URL you want to redirect to. 
+ You can also add this code to a custom JavaScript file and enqueue it in your theme's `functions.php` file. 
+ If you want to redirect to a different URL based on the form submitted, you can use the `event.detail.contactFormId` property to get the form ID and then use a switch statement to redirect to different URLs based on the form ID. 
+ Here's an example: 
+ ```javascript
+document.addEventListener( 'wpcf7mailsent', function( event ) {
+	switch ( event.detail.contactFormId ) {
+		case 123:
+			location = 'http://example.com/thank-you-form-123/';
+			break;
+		case 456:
+			location = 'http://example.com/thank-you-form-456/';
+			break;
+		default:
+			location = 'http://example.com/thank-you/';
+	}
+}, false );
+``` 
+ This code will redirect to different URLs based on the form submitted. Replace `123` and `456` with the form IDs you want to redirect for. 
+ You can also use the `event.detail.inputs` property to get the form input values and use them to customize the redirection URL. 
+ Here's an example: 
+ ```javascript
